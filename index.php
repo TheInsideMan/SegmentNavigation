@@ -12,5 +12,7 @@
 </head>
 <body>
 	<h1>This is a title test</h1>
+	<h3>This is where our subtitles go.</h3>
+	<p>Now we can see if some of the items will actually work.</p>
 </body>
 </html>
