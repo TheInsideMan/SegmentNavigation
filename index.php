@@ -19,6 +19,11 @@
 
 			if($q > 4){
 				echo '<p>Query is bigger than four!</p>';
+
+
+				if($q == 7){
+					echo '<p>This is number seven</p>';
+				}
 			} else {
 				echo '<p>Query is less than four.</p>';
 			}
