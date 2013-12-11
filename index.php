@@ -13,7 +13,20 @@
 <body>
 	<h1>This is a title test</h1>
 	<h3>This is where our subtitles go.</h3>
-	<p>Now we can see if some of the items will actually work.</p>
-	<p>Most of the time I get the urge to do something different</p>
+	<?php
+		if(!empty($_REQUEST['q'])){
+			$q = $_REQUEST['q'];
+
+			if($q > 4){
+				echo '<p>Query is bigger than four!</p>';
+			} else {
+				echo '<p>Query is less than four.</p>';
+			}
+
+		
+		} else {//check if query has been passed
+			echo '<p>No query provided.</p>';
+		}
+	?>
 </body>
 </html>
