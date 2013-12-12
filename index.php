@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>Process Konami/ASCI</title>
 <script type="text/javascript">
 	window.onload = init;
 	function init(){
@@ -11,27 +12,75 @@
 </script>
 </head>
 <body>
-	<h1>This is a title test</h1>
-	<h3>This is where our subtitles go.</h3>
+	<h1>Process Konami/ASCI</h1>
 	<?php
-		if(!empty($_REQUEST['q'])){
-			$q = $_REQUEST['q'];
+	
+	$con=mysqli_connect("localhost","root","root","konami_asci_parse");
 
-			if($q > 4){
-				echo '<p>Query is bigger than four!</p>';
+	// Check connection
+	if (mysqli_connect_errno()){
+	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	  } else {
+	  	echo "connected ok";
+	  }
+		if(!empty($_REQUEST['file'])){
+			$file = 'konami/'.$_REQUEST['file'];
 
-
-				if($q == 7){
-					echo '<p>This is number seven</p>';
+			echo '<p>File: '.$file.'</p>';
+			$data = csv_to_array($file,',');
+			
+			foreach ($data as $key => $value) {
+				$i=0;
+				foreach ($value as $key2 => $value2) {
+					if($i==0) $date = $value2;
+					if($i==1) $id = $value2;
+					if($i==2) $user = $value2;
+					$i++;
 				}
-			} else {
-				echo '<p>Query is less than four.</p>';
+				mysqli_query($con, "INSERT IGNORE INTO `pixel` SET `id` = '$id', `date` = '$date', `user_id` = $user,`filename` = '$file'");
+				//echo mysqli_errno($con) . ": " . mysqli_error($con) . "\n";
 			}
 
-		
+
+			$result = mysqli_query($con,"SELECT * FROM `pixel` WHERE filename='$file' ");
+			$num_rows = mysqli_num_rows($result);
+			$t = ($num_rows * 256);
+			echo 'Number of unique pixel\'s: '.$num_rows.' * 256 = <b>'.$t.'</b><br/><br/>';
+			$i=0;
+			echo '<table border="1">';
+			while($row = mysqli_fetch_array($result)){
+				echo '<tr><td>'.$i.'</td><td>'.$row['id'].'</td><td>'.$row['date'].'</td><td>'.$row['user_id'].'</td></tr>';
+				$i++;
+  			}
+  			echo '</table>';
+
 		} else {//check if query has been passed
-			echo '<p>No query provided.</p>';
+			echo '<p>No file provided.</p>';
 		}
+
+
+
+		function csv_to_array($filename='', $delimiter=',')
+		{
+		    if(!file_exists($filename) || !is_readable($filename))
+		        return FALSE;
+
+		    $header = NULL;
+		    $data = array();
+		    if (($handle = fopen($filename, 'r')) !== FALSE)
+		    {
+		        while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
+		        {
+		            if(!$header)
+		                $header = $row;
+		            else
+		                $data[] = array_combine($header, $row);
+		        }
+		        fclose($handle);
+		    }
+		    return $data;
+		}
+
 	?>
 </body>
 </html>
