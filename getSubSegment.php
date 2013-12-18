@@ -33,9 +33,13 @@
 
 			$q = mysqli_query($con,"select id from segs where parent='$key' ");
 			$c = mysqli_num_rows($q);
+			if($c > 0){
+				$arrow = '&#10095;';
+			} else {
+				$arrow = '&times;';
+			}
 
-
-			echo '<li><a href="getSubSegment.php?pid='.$key.'" class="'.$key.'">'.$value.' ('.$c.')</a></li>';
+			echo '<li><a href="getSubSegment.php?pid='.$key.'" class="'.$key.'">'.$value.' '.$arrow.' </a></li>';
 		}
 		echo '</ul>';
 
