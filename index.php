@@ -25,6 +25,7 @@
 	}
 	
 	if(!empty($_REQUEST['file'])){
+		$dup = $_REQUEST['dup'];
 		$file = 'konami/'.$_REQUEST['file'];
 
 		echo '<p>File: '.$file.'</p>';
@@ -40,12 +41,21 @@
 				if($i==2) $user = $value2;
 				$i++;
 			}
-			mysqli_query($con, "INSERT IGNORE INTO `pixel` SET `id` = '$id', `date` = '$date', `pixel_id` = $user,`filename` = '$file'");
+			if($dup=1){
+				mysqli_query($con, "INSERT INTO `pixel_with_dupl` SET `asi` = '$id', `date` = '$date', `konami` = $user,`filename` = '$file'");
+			}  else {
+				mysqli_query($con, "INSERT IGNORE INTO `pixel` SET `id` = '$id', `date` = '$date', `pixel_id` = $user,`filename` = '$file'");
+			}
+			
 			//echo mysqli_errno($con) . ": " . mysqli_error($con) . "\n";
 		}
 
-
-		$result = mysqli_query($con,"SELECT * FROM `pixel` WHERE filename='$file' ");
+		if($dup=1){
+			$result = mysqli_query($con,"SELECT * FROM `pixel_with_dupl` WHERE filename='$file' ");
+		} else {
+			$result = mysqli_query($con,"SELECT * FROM `pixel` WHERE filename='$file' ");
+		}
+		
 		$num_rows = mysqli_num_rows($result);
 		$t = ($num_rows * 256);
 		echo 'Number of unique pixel\'s: '.$num_rows.' * 256 = <b>'.$t.'</b><br/><br/>';

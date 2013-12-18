@@ -1048,12 +1048,14 @@ function cycleSegments($array,$parent_id){
 		if($key != "end") {
 			//store each key in db and get last created id
 			$parent_id_gen = insertNewSegment($key,$parent_id);
+			//if the next value is a array rerun the function again
 			if(is_array($value)) cycleSegments($value,$parent_id_gen);
 		}
 	}
 }
 
 function insertNewSegment($name,$parent_id){
+	//this function simply stores each line of the $tree array in DB
 	$con=mysqli_connect("localhost","root","root","segments");
 	// Check connection
 	if (mysqli_connect_errno()){

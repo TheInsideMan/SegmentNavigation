@@ -3,9 +3,24 @@
 <head>
 		<title>Display segments</title>
 </head>
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+</script>
+
+
+
 <body>
 	<h1>List of Segments</h1>
 <?php
+
+	//
 	$seg = array();
 	$con=mysqli_connect("localhost","root","root","segments");
 	// Check connection
@@ -13,7 +28,6 @@
 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	} else {
 		$result = mysqli_query($con, "select * from segs");
-		
 		while($row = mysqli_fetch_array($result)){
 			$seg[] = $row;
 		}
@@ -21,7 +35,6 @@
 
 	$restful = array();
 	foreach ($seg as $k => $v ) {
-		
 		if($v['parent'] <1) {
 			$id =$v['id'];
 			$restful[$id] = $v['name'];
@@ -31,19 +44,14 @@
 			$pid = $v['parent'];
 			if(array_key_exists($pid,$restful)){
 				$tmp = $restful[$pid].'/'.$v['name'];
-				//$restful[$pid] = $tmp;
 				$restful[$id] = $tmp;
 			} 
 		}
 	}
 
-
 	foreach ($restful as $key => $value) {
 		echo '<p>'.$key.': '.$value.'</p>';
-	}
-
-
-	
+	}	
 ?>
 
 </body>
