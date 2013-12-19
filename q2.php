@@ -36,10 +36,10 @@
 	<div id="container">
 	<h1>UU Pixel Crossover Rate Report</h1>
 	<form action="q2.php" method="POST">
-		<label for="startdate">*Start Date</label>
+		<label for="startdate">Start Date</label>
 		<input type="date" name="startdate" id="startdate" value="<?php if(!empty($_REQUEST['startdate'])) echo $_REQUEST['startdate']; ?>" >
 
-		<label for="enddate">*End Date</label>
+		<label for="enddate">End Date</label>
 		<input type="date" name="enddate" id="enddate" value="<?php if(!empty($_REQUEST['enddate'])) echo $_REQUEST['enddate']; ?>" >
 
 		<label for="konami">Konami #</label>
@@ -75,7 +75,7 @@
 	} else {
 		//connection ok
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-		  	if(!empty($_REQUEST['startdate']) && !empty($_REQUEST['enddate']) ){
+		  	if(!empty($_REQUEST['startdate']) && !empty($_REQUEST['enddate']) && !empty($_REQUEST['konami']) && !empty($_REQUEST['pixel'])){
 		  		
 		  		//set the POST variables
 		  		if(!empty($_REQUEST['startdate'])) $sd = mysql_real_escape_string($_REQUEST['startdate']);
@@ -109,23 +109,23 @@
 	  			//get the crossover as a percentage
 	  			$pc = number_format(($crossover/$konami_num_rows)*100,4);
 
-	  			echo '<p>There are <b>'.$crossover.'</b> users that have seen both Konami pixel "'.$konami.'" <i>(total no. of users '.
-	  				number_format($konami_num_rows).')</i> and ASI pixel "'.$pixel.'" <i>(total no. of users '.number_format($pixel_num_rows).')</i> with a <b>'.$pc.'% </b>crossover.</p>';
+	  			echo '<p>There are <b>'.$crossover.'</b> users that have seen both Konami pixel "'.$konami.'" <i>(total unique users: '.
+	  				number_format($konami_num_rows).')</i> and ASI pixel "'.$pixel.'" <i>(total unique users: '.number_format($pixel_num_rows).')</i> with a <b>'.$pc.'% </b>crossover.</p>';
 	  			
 
-	  			if(!empty($crossover_users)) echo '<p>Sample crossover users:</p><ul>';
-	  			foreach ($crossover_users as $key => $value) {echo '<li>'.$value.'</li>';}
-	  			echo '</ul>';		  		
+	  			if(!empty($crossover_users)) {
+	  				echo '<p>Sample crossover users:</p><ul>';
+	  				foreach ($crossover_users as $key => $value) { echo '<li>'.$value.'</li>'; }
+	  				echo '</ul>';	
+				}
 		  		
 				
 			} else {//check if query has been passed
-				echo '<p>Please fill out all required fields.</p>';
+				echo '<p class="error">Please fill out all fields.</p>';
 			}
-		}//if _POST
-		
+		}
 	}
-
-	?>
+?>
 </div>
 </body>
 </html>

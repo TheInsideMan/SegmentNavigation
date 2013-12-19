@@ -1,5 +1,21 @@
 <?php
 
+
+	class getSubSegment {
+
+		function __construct(){
+
+		}//end of constructor
+
+
+
+
+
+
+
+
+	}//end of class
+
 	$pid = mysql_real_escape_string($_REQUEST['pid']);
 
 	if(!empty($pid)){

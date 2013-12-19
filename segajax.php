@@ -2,45 +2,62 @@
 <html>
 <head>
 		<title>Display segments</title>
+		<style type="text/css">
+
+			body {
+				font-family: arial;
+			}
+			a {
+				text-decoration: none;
+				color: #5a5959;
+			}
+			a:hover {
+				color: #c2bebe;
+			}
+
+		</style>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+
+			//I need to get an array of all the parent categories
+			var pids = [];
+			$("#toplist li a").each(function() { pids.push( $(this).attr('class') ) });
+			
+
+
+			$(document).on('click', "a", function() {
+			
+				var href = $(this).attr('href');
+				var btnClass = $(this).attr('class');
+				
+
+				//check if clicked btnClass exists in parent pids array
+				if ($.inArray(btnClass, pids) !== -1){
+					//if NO then add to sub category AND do not remove dynamicul
+					$( "#dynamicul" ).fadeOut(30, function() { $(this).remove(); });
+					
+				} else if ($.inArray(btnClass, pids) == -1) {
+					//if YES then replace the items
+					
+				}
+
+				
+				$.get(href,function(data) {
+		   			$('.'+btnClass).append(data);
+				})
+				return false;
+			});
+		});
+
+
+
+
+		</script>
+
 </head>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
-<script type="text/javascript">
-$(document).ready(function(){
 
-	//I need to get an array of all the parent categories
-	var pids = [];
-	$("#toplist li a").each(function() { pids.push( $(this).attr('class') ) });
-	
-
-
-	$(document).on('click', "a", function() {
-	
-		var href = $(this).attr('href');
-		var btnClass = $(this).attr('class');
-		
-
-		//check if clicked btnClass exists in parent pids array
-		if ($.inArray(btnClass, pids) !== -1){
-			//if NO then add to sub category AND do not remove dynamicul
-			$( "#dynamicul" ).fadeOut(30, function() { $(this).remove(); });
-			
-		} else if ($.inArray(btnClass, pids) == -1) {
-			//if YES then replace the items
-			
-		}
-
-		
-		$.get(href,function(data) {
-   			$('.'+btnClass).append(data);
-		})
-		return false;
-	});
-});
-
-
-
-
-</script>
 
 
 
