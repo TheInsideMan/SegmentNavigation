@@ -14,9 +14,18 @@
 			<div id="segCol1">
 				
 				<?php
+					$orgid = '';
+					if( empty($_REQUEST['orgid']) ) {
+						$orgid=0;
+					} 
+					if( !empty($_REQUEST['orgid']) ) {
+						$orgid = $_REQUEST['orgid'];
+					}
+					
+					
 					require_once('inc/SegmentManager.inc.php');
 					require_once('inc/DataBase.inc.php');
-					$db = new DataBase();
+					$db = new DataBase($orgid);
 					$sm = new SegmentManager($db);
 					echo $segments = $sm->getParentSegments();
 					
@@ -66,7 +75,7 @@
 					
 
 					$.ajax({
-						url: "inc/ajaxHandler.inc.php?customid="+number+"&title="+val,
+						url: "inc/ajaxHandler.inc.php?customid="+number+"&title="+val+"&orgid="+<?php echo $orgid; ?>,
 						cache: false
 					}).done(function( data ) {
 						console.log("AJAX SUCCESS - Title: "+val+" ID: "+number+" -- STATUS: "+data);
@@ -80,7 +89,6 @@
 	   				 	//clears text field
 	   				 	$('#customInputField').val("");
 
-	   				 	$('html,body').animate({scrollTop: $("#"+data).offset().top},'slow');
 												
 					}); //end of AJAX
 				}
@@ -118,7 +126,7 @@
 				var appendTo = $(this).parent();
 				//AJAX Call
 				$.ajax({
-					url: "inc/ajaxHandler.inc.php?id="+itemId,
+					url: "inc/ajaxHandler.inc.php?id="+itemId+"&orgid="+<?php echo $orgid; ?>,
 					cache: false
 				}).done(function( data ) {
 					$( appendTo ).append( data );

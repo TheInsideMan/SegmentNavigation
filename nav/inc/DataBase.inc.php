@@ -3,9 +3,11 @@
 
 
 		private $con;
+		private $orgid;
 
-		function __construct(){
+		function __construct($orgid){
 			$this->con = $this->getConnection();
+			$this->orgid = $orgid;
 		}//end of constructor
 
 		function getConnection() {
@@ -20,7 +22,13 @@
 
 
 		function getAllSegments(){
-			$result = mysqli_query($this->con, "select * from segs");
+			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			if($orgid==0) {
+				$result = mysqli_query($this->con, "select * FROM segs WHERE orgid=0 ");
+			} else if($orgid!=0){
+				$result = mysqli_query($this->con, "select * FROM segs WHERE orgid='$orgid' OR orgid=0 ");
+			}
+			
 			while($row = mysqli_fetch_array($result)){
 				$seg[] = $row;
 			}
@@ -28,7 +36,10 @@
 		}//end of getAllSegments
 
 		function haveChild($id){
+			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			$id = mysqli_real_escape_string($this->con,$id);
 			$result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id'");
+			
 			$l = array();
 			foreach ($result as $key => $value) {
 				$l[] = $value['id'];
@@ -38,14 +49,37 @@
 		}
 
 		function getChildren($id){
+
+			/**
+			* 
+			* Please bear in mind that this function
+			* works on the basis that client organizaion segments 
+			* will only ever appear under the 1193 custom segment.
+			* 
+			*/
+
+
 			$id = mysqli_real_escape_string($this->con,$id);
-			return $result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id'");
+			
+			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			if($id==1193){
+				if($orgid==0){
+					return $result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id' AND orgid='0' ");
+				} else {
+					return $result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id' AND orgid='0' OR orgid='$orgid'");
+				}
+				
+			} else {
+				return $result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id' ");
+			}
+			
 		}//end of getChildren()
 
 		function setCustomSegment($customid,$title){
 			$customid = mysqli_real_escape_string($this->con,$customid);
 			$title = mysqli_real_escape_string($this->con,$title);
-			mysqli_query($this->con, "INSERT INTO segs (name,parent) VALUES ('$title','1193')");
+			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			mysqli_query($this->con, "INSERT INTO segs (name,parent,orgid) VALUES ('$title','1193','$orgid')");
 			return mysqli_insert_id($this->con);
 		}
 

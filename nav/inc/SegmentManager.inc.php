@@ -39,7 +39,7 @@
 							$return .= '</li>';
 						} else {
 							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'" id="'.$value['id'].'" class="'.$value['id'].'" >'.$value['name'].'</a>';
-							if($value['id']=1193){$return .= $this->getSubRoot('1193');}
+							//if($value['id']=1193) $return .= $this->getSubRoot('1193');
 							$return .= '</li>';
 
 						}
