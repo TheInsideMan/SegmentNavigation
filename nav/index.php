@@ -15,9 +15,11 @@
 				
 				<?php
 					require_once('inc/SegmentManager.inc.php');
-					$sm = new SegmentManager();
-					$parent_segments = $sm->getParentSegments();
-					echo $parent_segments;
+					require_once('inc/DataBase.inc.php');
+					$db = new DataBase();
+					$sm = new SegmentManager($db);
+					echo $segments = $sm->getParentSegments();
+					
 				?>
 
 
@@ -239,27 +241,62 @@
 
 
 			//this performs the slide function on expandable elements in left column
-			$( "div.isExpandable" ).click(function(event) {
+			
+
+			$( "div.isExpandable" ).live('click',function(event) {
 				event.preventDefault();
 				
+				//get the id of the clicked item
+				var itemId = $(this).parent().find('input').attr('id');
+				var appendTo = $(this).find('a').parent();
+				
+				
+				
+
+				// console.log("ulid: "+$(this).find('ul').attr('id'));
+
+				//if this expandable div has a class of isOpen
+				if($(this).find('a').hasClass('isClosed') ){
+					 console.log('something');
+					 $.ajax({
+					url: "inc/ajaxHandler.inc.php?id="+itemId,
+					cache: false
+					}).done(function( html ) {
+						$( appendTo ).append( html );
+					});
+					$(this).children('a').removeClass('isClosed');
+					$(this).children('a').addClass('isOpen');
+ 					//$(this).parent().find('ul.subRoot').first().slideToggle('fast');
+				} else if($(this).find('a').hasClass('isOpen')){
+					console.log('nothing');
+
+					$(this).find('ul').remove();
+					$(this).children('a').removeClass('isOpen');
+					$(this).children('a').addClass('isClosed');
+
+				}
+
 				//this un/hide subsegments
 				$(this).parent().find('ul.subRoot').first().slideToggle('fast');
 
-				
-					
-					//changes the direction of arrow
-					if($(this).children('a').hasClass('isClosed')){
+				// // console.log($(this).closest('li').find('span').);
+				// 	//changes the direction of arrow
+					// if($(this).children('a').hasClass('isClosed')){
 
-						$(this).children('a').removeClass('isClosed');
-						$(this).children('a').addClass('isOpen');
-					}
-					else if ($(this).children('a').hasClass('isOpen')){
+					// 	$(this).children('a').removeClass('isClosed');
+					// 	$(this).children('a').addClass('isOpen');
+					// }
+					// else if ($(this).children('a').hasClass('isOpen')){
 						
-						$(this).children('a').removeClass('isOpen');
-						$(this).children('a').addClass('isClosed');
-					}
+					// 	$(this).children('a').removeClass('isOpen');
+					// 	$(this).children('a').addClass('isClosed');
+					// }
 
-			});
+
+
+					
+
+				});
 
 			//simple check to spot a tag from acting as default
 			$('#segCol1 a').live('click', function(event){

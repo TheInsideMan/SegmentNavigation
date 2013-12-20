@@ -5,7 +5,7 @@
 		private $con;
 
 		function __construct(){
-			$this->con = getConnection();
+			$this->con = $this->getConnection();
 		}//end of constructor
 
 		function getConnection() {
@@ -27,11 +27,22 @@
 			return $seg;
 		}//end of getAllSegments
 
+		function haveChild($id){
+			$result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id'");
+			$l = array();
+			foreach ($result as $key => $value) {
+				$l[] = $value['id'];
+			}
+			$num = count($l);
+			if($num > 0){ return 1;} else { return 0;}
+		}
 
+		function getChildren($id){
+			$id = mysqli_real_escape_string($this->con,$id);
+			return $result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id'");
+		}//end of getChildren()
 
 
 	}// end of DataBase classs
 	
 	
-
-?>
