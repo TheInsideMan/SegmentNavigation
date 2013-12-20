@@ -62,27 +62,27 @@
 				 //checks to see if field is empty or only spaces
 				if(val !=='' && val !==' '){
 
+					//First AJAX Call to get the current list and open it
 					
 
-					//adds value to custom segment on right
-					$('#customList').append('<li id="'+number+'"> <p>' + val  + '</p><span class="removeCustom"></span>');
-   				 	
-					//add to custom segment category on left
-					$('#customListLeft').append('<li class="child"><span id="" class="segmentCheck"><input type="checkbox" name="" value="" id="'+number+'" class="" checked><label for="'+number+'"></label></span><a href="#">' + val  + '</a></li>');
-
-   				 	//clears text field
-   				 	$('#customInputField').val("");
-
-   				 	$.ajax({
+					$.ajax({
 						url: "inc/ajaxHandler.inc.php?customid="+number+"&title="+val,
 						cache: false
 					}).done(function( data ) {
 						console.log("AJAX SUCCESS - Title: "+val+" ID: "+number+" -- STATUS: "+data);
-					});
+						
+						//adds value to custom segment on right
+						$('#customList').append('<li id="'+data+'"> <p>' + val  + '</p><span class="removeCustom"></span>');
+	   				 	
+						//add to custom segment category on left
+						$('#customListLeft').append('<li class="child"><span id="" class="segmentCheck"><input type="checkbox" name="" value="'+data+'" id="'+data+'" class="" checked><label for="'+data+'"></label></span><a href="#">' + val  + '</a></li>');
 
+	   				 	//clears text field
+	   				 	$('#customInputField').val("");
 
-
-   				 	
+	   				 	$('html,body').animate({scrollTop: $("#"+data).offset().top},'slow');
+												
+					}); //end of AJAX
 				}
 				else{
 					alert("Please add a segment");

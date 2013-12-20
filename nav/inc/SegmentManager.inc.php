@@ -34,12 +34,14 @@
 							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'"  id="'.$value['id'].'" class="isClosed" >'.$value['name'].'</a></div>';
 							if($value['id']==1193){
 								$return .= '<div class="clear"></div>';
-								$return .= '<ul id="customListLeft" class="subRoot"></ul>';
+								$return .= $this->getSubRoot('1193');
 							}
 							$return .= '</li>';
 						} else {
 							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'" id="'.$value['id'].'" class="'.$value['id'].'" >'.$value['name'].'</a>';
+							if($value['id']=1193){$return .= $this->getSubRoot('1193');}
 							$return .= '</li>';
+
 						}
 					}//end of if
 				}//end of first foreach
@@ -52,8 +54,15 @@
 
 			$db = $this->db;
 			$children = $db->getChildren($id);
+			
 
-			$return = '<ul class="subRoot" id="'.$id.'">';
+
+			if($id==1193){
+				$return = '<ul class="subRoot" id="customListLeft">';
+			} else {
+				$return = '<ul class="subRoot" id="'.$id.'">';	
+			}
+
 			foreach ($children as $k => $v) {
 
 				$return .= '<li>
@@ -68,7 +77,6 @@
 					$return .= '<a href="#" class="isClosed" id="'.$v['id'].'">'.$v['name'].'</a>';
 					$return .= '</div>';
 					
-
 				} else {
 					$return .= '<a href=""  id="'.$v['id'].'">'.$v['name'].'</a></li>';
 				}

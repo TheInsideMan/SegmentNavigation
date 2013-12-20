@@ -10,9 +10,7 @@
 	
 
 	if(!empty($customid) && !empty($title)){
-		$db->setCustomSegment($customid,$title);
-			echo "success";
-		
+		echo $db->setCustomSegment($customid,$title);
 		
 	} else if(!empty($id)){
 		echo $sm->getSubRoot($id);

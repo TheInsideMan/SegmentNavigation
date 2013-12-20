@@ -45,8 +45,8 @@
 		function setCustomSegment($customid,$title){
 			$customid = mysqli_real_escape_string($this->con,$customid);
 			$title = mysqli_real_escape_string($this->con,$title);
-			mysqli_query($this->con, "INSERT INTO segs (id,name,parent) VALUES ('$customid','$title','1193')");
-
+			mysqli_query($this->con, "INSERT INTO segs (name,parent) VALUES ('$title','1193')");
+			return mysqli_insert_id($this->con);
 		}
 
 
