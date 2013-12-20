@@ -21,153 +21,7 @@
 					echo $segments = $sm->getParentSegments();
 					
 				?>
-
-
-
 				<!-- list of top segments - has no parent -->
-				<ul class="root">
-					<li class="">
-						<!-- styles the checkbox for a selectable segment -->
-						<span id="" class="segmentCheck">
-							<!-- input id and label takes the corresponding ID of segment in database -->
-							<input type="checkbox" name="" value="" id="01" class="parentCheckbox">
-							<label for="01"></label>
-						</span>
-						<!-- class 'isExpandable' is add dynamically if segment has child/ren -->
-						<div class="isExpandable">
-							<!-- class is changes if expanded -->
-							<a href="#" class="isClosed">
-								Entertainment 
-							</a>
-						</div>
-						<div class="clear"></div>
-						<!-- subRoot is hidden by default, javascript makes visible when expanded -->
-							<ul class="subRoot">
-							<li class="">
-								<span id="" class="segmentCheck">
-									
-									<input type="checkbox" name="" value="" id="01-01" class="parentCheckbox">
-									<label for="01-01"></label>
-								</span>
-								<div class="isExpandable">
-									<a href="#" class="isClosed">
-										Movies 
-									</a>
-								</div>
-								<div class="clear"></div>
-								<ul class="subRoot">
-									<li class="">
-										<span id="" class="segmentCheck">
-											<input type="checkbox" name="" value="" id="01-01-01" class="">
-											<label for="01-01-01"></label>
-										</span>
-										<a href="">Matrix</a>
-									</li>
-									<li>
-										<span id="" class="segmentCheck">
-											<input type="checkbox" name="" value="" id="01-01-02" class="">
-											<label for="01-01-02"></label>
-										</span>
-										<a href="">
-											Something else 
-										</a>
-									</li>
-								</ul><!-- end 2 child ul -->
-							</li>
-							<li>
-								<span id="" class="segmentCheck">
-									<input type="checkbox" name="" value="" id="01-02" class="">
-									<label for="01-02"></label>
-								</span>
-								<a href="">
-									Music
-								</a>
-							</li>
-						</ul><!-- end child ul -->
-					</li>
-					<li class="">
-						<span id="" class="segmentCheck">
-							<input type="checkbox" name="" value="" id="02" class="">
-							<label for="02"></label>
-						</span>
-						<div class="isExpandable">
-							<a href="#">
-								Business
-							</a>
-						</div>
-						<div class="clear"></div>
-						<ul class="subRoot">
-							<li class="">
-								<a href="#">
-									I am a child
-								</a>
-								<ul class="subRoot">
-									<li class="">
-										<a href="">
-											I am a child
-										</a>
-									</li>
-									<li>
-										<a href="">
-											So am I
-										</a>
-									</li>
-								</ul><!-- end 2 child ul -->
-							</li>
-							<li>
-								<a href="">
-									So am I
-								</a>
-							</li>
-						</ul><!-- end child ul -->
-					</li>
-					<li class="">
-						<span id="" class="segmentCheck">
-							<input type="checkbox" name="" value="" id="03" class="">
-							<label for="03"></label>
-						</span>
-						<div class="">
-							<a href="#">
-								Real Estate 
-							</a>
-						</div>
-						<div class="clear"></div>
-					</li>
-					<li class="">
-						<span id="" class="segmentCheck">
-							<input type="checkbox" name="" value="" id="05" class="">
-							<label for="05"></label>
-						</span>
-						<div class="isExpandable">
-							<a href="#">Custom Segments</a>
-							</div>
-						<div class="clear"></div>
-						<!-- customListLeft is targeted by js to add new segments -->
-						<ul id="customListLeft" class="subRoot">
-
-							<li  id="123" class="">
-
-								<span id="" class="segmentCheck">
-									<input type="checkbox" name="" value="" id="05-01" class="">
-									<label for="05-01"></label>
-								</span>
-								<a href="#">
-										I am custom
-								</a>
-
-							</li>
-							<li>
-								<span id="" class="segmentCheck">
-									<input type="checkbox" name="" value="" id="05-02" class="">
-									<label for="05-02"></label>
-								</span>
-								<a href="">
-										I am custom too
-								</a>
-							</li>
-						</ul><!-- end child ul -->
-					</li>
-				</ul><!-- end root ul -->
 			</div>
 
 
@@ -193,18 +47,22 @@
 	<script type="text/javascript">
 		$( document ).ready(function() {
 
+			
+
 			//add new custom segment to the right column
 			$('button#addCustomSeg').click(function(event){
 				 event.preventDefault();
 
 				 //'number' will need to correspond with customs segment ID in database
 				 var val = $('#customInputField').val()
-				 	,number = 1 + Math.floor(Math.random() * 6000);
+				 	,number = 1 + Math.floor(Math.random() * 6000000);
 				 
 				 val = $.trim(val);
 
 				 //checks to see if field is empty or only spaces
 				if(val !=='' && val !==' '){
+
+					
 
 					//adds value to custom segment on right
 					$('#customList').append('<li id="'+number+'"> <p>' + val  + '</p><span class="removeCustom"></span>');
@@ -214,10 +72,22 @@
 
    				 	//clears text field
    				 	$('#customInputField').val("");
+
+   				 	$.ajax({
+						url: "inc/ajaxHandler.inc.php?customid="+number+"&title="+val,
+						cache: false
+					}).done(function( data ) {
+						console.log("AJAX SUCCESS - Title: "+val+" ID: "+number+" -- STATUS: "+data);
+					});
+
+
+
+   				 	
 				}
 				else{
 					alert("Please add a segment");
 				} 
+
 			});
 
 			//remove customs segments from right column and
@@ -241,62 +111,34 @@
 
 
 			//this performs the slide function on expandable elements in left column
-			
-
-			$( "div.isExpandable" ).live('click',function(event) {
-				event.preventDefault();
-				
-				//get the id of the clicked item
-				var itemId = $(this).parent().find('input').attr('id');
-				var appendTo = $(this).find('a').parent();
-				
-				
-				
-
-				// console.log("ulid: "+$(this).find('ul').attr('id'));
-
-				//if this expandable div has a class of isOpen
-				if($(this).find('a').hasClass('isClosed') ){
-					 console.log('something');
-					 $.ajax({
+			$( "a.isClosed" ).live('click',function(event) {
+				event.preventDefault();					
+				console.log("CLOSED live click catch");
+				var itemId =  $(this).attr('id');
+				var appendTo = $(this).parent();
+				//AJAX Call
+				$.ajax({
 					url: "inc/ajaxHandler.inc.php?id="+itemId,
 					cache: false
-					}).done(function( html ) {
-						$( appendTo ).append( html );
-					});
-					$(this).children('a').removeClass('isClosed');
-					$(this).children('a').addClass('isOpen');
- 					//$(this).parent().find('ul.subRoot').first().slideToggle('fast');
-				} else if($(this).find('a').hasClass('isOpen')){
-					console.log('nothing');
-
-					$(this).find('ul').remove();
-					$(this).children('a').removeClass('isOpen');
-					$(this).children('a').addClass('isClosed');
-
-				}
-
-				//this un/hide subsegments
-				$(this).parent().find('ul.subRoot').first().slideToggle('fast');
-
-				// // console.log($(this).closest('li').find('span').);
-				// 	//changes the direction of arrow
-					// if($(this).children('a').hasClass('isClosed')){
-
-					// 	$(this).children('a').removeClass('isClosed');
-					// 	$(this).children('a').addClass('isOpen');
-					// }
-					// else if ($(this).children('a').hasClass('isOpen')){
-						
-					// 	$(this).children('a').removeClass('isOpen');
-					// 	$(this).children('a').addClass('isClosed');
-					// }
-
-
-
-					
-
+				}).done(function( data ) {
+					$( appendTo ).append( data );
 				});
+				$(this).removeClass('isClosed');
+		 		$(this).addClass('isOpen');
+			});
+
+			$( "a.isOpen" ).live('click',function(event) {
+				event.preventDefault();
+				var itemId =  $(this).attr('id');
+				var appendTo = $(this).parent();
+				$(this).parent().find('ul').remove();
+				console.log("OPEN live click catch");
+				$(this).removeClass('isOpen');
+		 		$(this).addClass('isClosed');
+		 		$(this).parent().find('ul.subRoot').first().slideToggle('fast');
+			});
+
+		
 
 			//simple check to spot a tag from acting as default
 			$('#segCol1 a').live('click', function(event){

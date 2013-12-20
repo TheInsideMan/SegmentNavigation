@@ -25,16 +25,20 @@
 
 						<span id="" class="segmentCheck">
 								<!-- input id and label takes the corresponding ID of segment in database -->
-								<input type="checkbox" name="'.$value['id'].'" value="" id="'.$value['id'].'" class="parentCheckbox">
+								<input type="checkbox" name="'.$value['id'].'" value="'.$value['id'].'" id="'.$value['id'].'" class="parentCheckbox">
 								<label for="'.$value['id'].'"></label>
 						</span>';
 						
-						if($this->db->haveChild($value['id'])==1){
+						if($this->db->haveChild($value['id'])==1 || $value['id']==1193){
 							$return .= '<div class="isExpandable">';
-							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'" class="isClosed" >'.$value['name'].'</a></div>';
+							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'"  id="'.$value['id'].'" class="isClosed" >'.$value['name'].'</a></div>';
+							if($value['id']==1193){
+								$return .= '<div class="clear"></div>';
+								$return .= '<ul id="customListLeft" class="subRoot"></ul>';
+							}
 							$return .= '</li>';
 						} else {
-							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'" class="'.$value['id'].'" >'.$value['name'].'</a>';
+							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'" id="'.$value['id'].'" class="'.$value['id'].'" >'.$value['name'].'</a>';
 							$return .= '</li>';
 						}
 					}//end of if
@@ -51,22 +55,25 @@
 
 			$return = '<ul class="subRoot" id="'.$id.'">';
 			foreach ($children as $k => $v) {
+
 				$return .= '<li>
 								<span id="" class="segmentCheck">
-									<input type="checkbox" name="" value="" id="'.$id.'-'.$v['id'].'" class="">
+									<input type="checkbox" name="" value="'.$v['id'].'" id="'.$id.'-'.$v['id'].'" class="">
 									<label for="'.$id.'-'.$v['id'].'"></label>
 								</span>';
+			
 
 				if($db->haveChild($v['id'])==1){
 					$return .= '<div class="isExpandable">';
-					$return .= '<a href="">'.$v['name'].'</a>';
+					$return .= '<a href="#" class="isClosed" id="'.$v['id'].'">'.$v['name'].'</a>';
 					$return .= '</div>';
+					
+
 				} else {
-					$return .= '<a href="">'.$v['name'].'</a>
-							</li>';
+					$return .= '<a href=""  id="'.$v['id'].'">'.$v['name'].'</a></li>';
 				}
 				
-			}
+			}//end of foreach
 
 
 			

@@ -42,6 +42,13 @@
 			return $result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id'");
 		}//end of getChildren()
 
+		function setCustomSegment($customid,$title){
+			$customid = mysqli_real_escape_string($this->con,$customid);
+			$title = mysqli_real_escape_string($this->con,$title);
+			mysqli_query($this->con, "INSERT INTO segs (id,name,parent) VALUES ('$customid','$title','1193')");
+
+		}
+
 
 	}// end of DataBase classs
 	
