@@ -1,11 +1,14 @@
 <?php
 	
-
-	class SegmentManager {
+	require_once('DataBase.inc.php');
+	class SegmentManager extends DataBase {
 		private $db;
 		private $seg = array();
 
-		function __construct($db){
+		function __construct($orgid){
+			//$orgid = (string)$orgid;
+			//echo 'gettype 2: '.gettype($orgid).' ';
+			$db = new DataBase($orgid);
 			$this->db = $db;
 			$this->seg[] = $this->db->getAllSegments();
 		}
@@ -20,7 +23,7 @@
 			foreach ($seg as $k => $v ) {
 				foreach ($v as $key => $value) {
 					//so that only parent categories are returned
-					if($value['parent'] <1) {
+					if($value['parent'] < 1) {
 						$return .= '<li class="">
 
 						<span id="" class="segmentCheck">
@@ -41,7 +44,6 @@
 							$return .= '<a href="getSubSegment.php?pid='.$value['id'].'" id="'.$value['id'].'" class="'.$value['id'].'" >'.$value['name'].'</a>';
 							//if($value['id']=1193) $return .= $this->getSubRoot('1193');
 							$return .= '</li>';
-
 						}
 					}//end of if
 				}//end of first foreach

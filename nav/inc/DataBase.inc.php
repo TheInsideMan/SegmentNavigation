@@ -7,7 +7,10 @@
 
 		function __construct($orgid){
 			$this->con = $this->getConnection();
-			$this->orgid = $orgid;
+			if(!is_string($orgid)){
+				$orgid =  $orgid->orgid;
+			}
+			$this->orgid = mysqli_real_escape_string($this->con,$orgid);
 		}//end of constructor
 
 		function getConnection() {
@@ -22,7 +25,7 @@
 
 
 		function getAllSegments(){
-			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			$orgid = $this->orgid;
 			if($orgid==0) {
 				$result = mysqli_query($this->con, "select * FROM segs WHERE orgid=0 ");
 			} else if($orgid!=0){
@@ -36,7 +39,7 @@
 		}//end of getAllSegments
 
 		function haveChild($id){
-			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			$orgid = $this->orgid;
 			$id = mysqli_real_escape_string($this->con,$id);
 			$result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id'");
 			
@@ -61,7 +64,7 @@
 
 			$id = mysqli_real_escape_string($this->con,$id);
 			
-			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			$orgid = $this->orgid;
 			if($id==1193){
 				if($orgid==0){
 					return $result = mysqli_query($this->con, "SELECT * FROM segs WHERE parent='$id' AND id!='$id' AND orgid='0' ");
@@ -78,7 +81,7 @@
 		function setCustomSegment($customid,$title){
 			$customid = mysqli_real_escape_string($this->con,$customid);
 			$title = mysqli_real_escape_string($this->con,$title);
-			$orgid = mysqli_real_escape_string($this->con,$this->orgid);
+			$orgid = $this->orgid;
 			mysqli_query($this->con, "INSERT INTO segs (name,parent,orgid) VALUES ('$title','1193','$orgid')");
 			return mysqli_insert_id($this->con);
 		}

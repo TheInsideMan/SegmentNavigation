@@ -14,19 +14,14 @@
 			<div id="segCol1">
 				
 				<?php
-					$orgid = '';
 					if( empty($_REQUEST['orgid']) ) {
-						$orgid=0;
+						$orgid='0';
 					} 
 					if( !empty($_REQUEST['orgid']) ) {
 						$orgid = $_REQUEST['orgid'];
 					}
-					
-					
 					require_once('inc/SegmentManager.inc.php');
-					require_once('inc/DataBase.inc.php');
-					$db = new DataBase($orgid);
-					$sm = new SegmentManager($db);
+					$sm = new SegmentManager($orgid);
 					echo $segments = $sm->getParentSegments();
 					
 				?>
