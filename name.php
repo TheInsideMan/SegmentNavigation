@@ -20,9 +20,13 @@
 </script>
 </head>
 <body>
+<<<<<<< HEAD
 <h1>Aaron was here</h1>
 <h3>some bloody text</h3>
 <p>this is a test for adding text</p>
+=======
+<h1>yet another title test</h1>
+>>>>>>> branchtest
 	<form method="POST" action="name.php" id="calcForm">
 		<input type="text" name="firstName" id="firstName" value="Firstname" required><br/>
 		<input type="text" name="lastName" id="lastName" value="Lastname" required><br/>

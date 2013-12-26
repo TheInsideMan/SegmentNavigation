@@ -1,0 +1,272 @@
+body{
+	background-color: #f6f7f9;
+	font-family: "helvetica neue", arial, sans-serif;
+}
+
+
+#segCol1 p {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+
+#segCol1 ul li a {
+		cursor: text;
+
+}
+#segCol1 div.isExpandable a {
+	cursor:pointer;
+}
+
+#segCol1::-webkit-scrollbar, #segCol2::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+#segCol1::-webkit-scrollbar:vertical, #segCol2::-webkit-scrollbar:vertical {
+    width: 11px;
+}
+
+#segCol1::-webkit-scrollbar:horizontal, #segCol2::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+#segCol1::-webkit-scrollbar-thumb, #segCol2::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+    		box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+.clear {
+	clear: both;
+}
+#segContainer {
+	width: 780px;
+	margin: 100px auto 0;
+}
+
+#segCol1 {
+	float: left;
+	width: 350px;
+	margin: 0 30px 0 0;
+	border: 2px solid #eee;
+	box-shadow: -4px -3px 6px -6px #ccc;
+	max-height: 400px;
+	overflow: auto;
+	padding: 0px;
+		box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+#segCol2 {
+	background-color: #fff; 
+	float: left;
+	font-weight: normal;
+	font-size: 14px;
+	width: 360px;
+	margin: 0px;
+	border: 2px solid #eee;
+	box-shadow: -4px -3px 6px -6px #ccc;
+	padding: 0px 30px 20px;
+	max-height: 400px;
+	overflow: auto;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+#segCol2 p {
+
+	margin: 0;
+	padding: 0;
+}
+
+#segCol2 p.title {
+	padding: 20px 0 0 0 ;
+}
+
+.subRoot {
+	/*display: none;*/
+}
+.subRoot li {
+	margin-left: 10px;
+}
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+#segCol1 ul.root > li {
+	font-weight: bold;
+	font-size: 14px;
+	list-style: none;
+	display: block;
+	background: #fefefe url('../img/parent_1px_bg.png') repeat-x;
+	min-height: 31px;
+	padding: 15px 0 0px 10px;
+}
+
+#segCol1 ul.subRoot > li {
+	font-weight: bold;
+	font-size: 14px;
+	list-style: none;
+	display: block;
+	background-color:#fff;
+	min-height: 31px;
+	padding: 15px 0 0px 10px;
+
+}
+
+#segCol1 ul.subRoot > li:first-child {
+	margin-top: 16px;
+}
+
+#segCol1 a {
+/*	display: block;*/
+	padding: 2px 30px 2px 2px;
+}
+
+#segCol1 a.isOpen {
+	background: transparent url('../img/isOpen.png') no-repeat right center;
+}
+#segCol1 a.isClosed {
+	background: transparent url('../img/isClosed.png') no-repeat right center;
+}
+
+input[type = "checkbox"] {
+
+/*	float: left;*/
+	width: 20px;
+/*	border-radius: 2px;*/
+
+	position: relative;
+}
+
+span.segmentCheck{
+	width: 20px;
+	position: relative;
+	display: block;
+	float: left;
+	margin-right: 18px;
+
+}
+
+.segmentCheck label {
+	cursor: pointer;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: 0;
+	border-radius: 2px;
+	border: 1px solid #efefef;
+	background: -webkit-linear-gradient(top, #fff 0%, #fff 40%, #fff 100%);
+	background: -moz-linear-gradient(top, #fff 0%, #fff 40%, #fff 100%);
+	background: -o-linear-gradient(top, #fff 0%, #fff 40%, #fff 100%);
+	background: -ms-linear-gradient(top, #fff 0%, #fff 40%, #fff 100%);
+	background: linear-gradient(top, #fff 0%, #fff 40%, #fff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#fff',GradientType=0 );
+}
+
+.segmentCheck label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 9px;
+	height: 5px;
+	background: transparent;
+	top: 4px;
+	left: 4px;
+	border: 3px solid #333;
+	border-top: none;
+	border-right: none;
+
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+
+.segmentCheck label:hover::after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: 0.5;
+}
+
+.segmentCheck input[type=checkbox]:checked + label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+
+#customSeg {
+
+	position: relative;
+}
+
+#customInputField {
+
+	width: 100%;
+	display: block;
+	height: 40px;
+	margin: 10px 0 0 0;
+	border: 1px solid #efefef;
+	font-size: 14px;
+	padding: 0 30px 0 10px;
+	color: #555;
+}
+
+button#addCustomSeg {
+	background: transparent url('../img/add-seg.png') no-repeat;
+	width: 17px;
+	height: 17px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	float: right;
+	top: -28px;
+	left: -8px;
+	position: relative;
+}
+
+#segCol2 ul li {
+	float: left;
+	padding: 10px 20px;
+	color: #fff;
+	margin: 0px 2px 2px 0;
+	font-weight: bold;
+    background-image: -webkit-linear-gradient(top, #3bc4f0, #20baee, #0ab2ec);
+    /*add browser specific gradient*/
+    position: relative; 
+
+
+}
+
+#segCol2 p {
+	margin-right: 22px;
+	    word-break:break-all;
+}
+
+#segCol2 span {
+	background: transparent url('../img/delete-seg.png') no-repeat;
+	width: 17px;
+	height: 17px;
+	position: absolute;
+	display: block;
+	top: 12px;
+	right: 12px;
+	cursor: pointer;
+}
+
