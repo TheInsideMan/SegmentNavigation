@@ -143,6 +143,20 @@
 		 		$(this).parent().find('ul.subRoot').first().slideToggle('fast');
 			});
 
+			//check sub-categories
+			$('input:checkbox').live('change', function(){
+			    var c = $(this).val();
+			    if($(this).is(':checked')){
+			    	//checked
+			    	//$(this).siblings('ul').find("input[type='checkbox']").prop('checked', this.checked);
+           			$(this).parents().children(':checkbox').attr('checked', this.checked);
+           			//$(this).children(':checkbox').attr('checked', this.checked);
+
+			    } else {
+			        //unchecked
+			    }
+			});
+
 		
 
 			//simple check to spot a tag from acting as default
