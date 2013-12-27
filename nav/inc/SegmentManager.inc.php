@@ -6,10 +6,8 @@
 		private $seg = array();
 
 		function __construct($orgid){
-			//$orgid = (string)$orgid;
-			//echo 'gettype 2: '.gettype($orgid).' ';
-			$db = new DataBase($orgid);
-			$this->db = $db;
+			 
+			$this->db = new DataBase($orgid);
 			$this->seg[] = $this->db->getAllSegments();
 		}
 		

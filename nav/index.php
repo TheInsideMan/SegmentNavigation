@@ -14,15 +14,17 @@
 			<div id="segCol1">
 				
 				<?php
+					require_once('inc/SegmentManager.inc.php');
+					
 					if( empty($_REQUEST['orgid']) ) {
 						$orgid='0';
 					} 
 					if( !empty($_REQUEST['orgid']) ) {
 						$orgid = $_REQUEST['orgid'];
 					}
-					require_once('inc/SegmentManager.inc.php');
+					
 					$sm = new SegmentManager($orgid);
-					echo $segments = $sm->getParentSegments();
+					echo $sm->getParentSegments();
 					
 				?>
 				<!-- list of top segments - has no parent -->
